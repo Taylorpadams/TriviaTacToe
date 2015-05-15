@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Trivia Tac Toe!</title>
+	<!-- style sheet links -->
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/style.css">
+	
+	<!-- AngularJS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+
+	<!-- Firebase -->
+	<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+
+	<!-- AngularFire -->
+	<script src="https://cdn.firebase.com/libs/angularfire/1.1.1/angularfire.min.js"></script>
+	
+	<!--Javascript links -->
+	<script type="text/javascript" src="js/app.js" defer></script>
+	<script type="text/javascript" src="js/controller.js" defer></script>
+
+</head>
+<body ng-app="tttApp" ng-controller="TttController as tttCtrl">
+	<h1>Tic Tac Toe!</h1>
+	<div id="scoreWrapper">
+        <div id="p1">
+          <h2>Player One Score</h2>
+            <div id="p1score" class="score">{{ tttCtrl.gameState.score.p1Score }}</div>
+        </div>
+        <div id="p2">
+          <h2>Player Two Score</h2>
+            <div id="p2score" class="score">{{ tttCtrl.gameState.score.p2Score }}</div>
+        </div>
+      </div>
+	<div id="board">
+        <div class="boxes" ng-repeat="box in tttCtrl.gameState.boxes" ng-click="tttCtrl.chooseBox($index)" ng-class="{ 'isX': box.isX , 'isO': box.isO }">
+        </div>
+    </div>
+    
+
+    	
+    </div>
+
+</body>
+</html>
