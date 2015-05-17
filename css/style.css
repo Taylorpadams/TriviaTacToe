@@ -37,17 +37,78 @@
 	border-color: black;
 	font-size: 100px;
 	text-align: center;
-	margin: 20px;
+	margin: 0 auto;
 
 }
 #p1 {
 	float: left;
+	width: 402px;
+  	height: 481px;
+	border: solid black;
+	margin: 8px;
 
+}
+#p1trivia {
+	height: 279px;
+  	width: 337px;
+	border: solid;
+	border-color: black;
+	font-size: 100px;
+	text-align: center;
+	margin: 0 auto;
+	list-style: none;
+	padding: 0;
 }
 #p2 {
 	float: right;
+	width: 402px;
+  	height: 481px;
+	border: solid black;
+	margin: 8px;
 
 }
+#p2trivia{
+	height: 279px;
+  	width: 337px;
+	border: solid;
+	border-color: black;
+	font-size: 100px;
+	text-align: center;
+	margin: 0 auto;
+	list-style: none;
+	padding: 0;
+
+}
+
+.question {
+	font-size: 20px;
+  	height: 68px;
+  	width: 322px;
+  	border: solid gray;
+  	margin: 5px;
+}
+.answer {
+	font-size: 15px;
+  	height: 38px;
+  	width: 322px;
+  	border: solid gray;
+  	margin: 5px;
+}
+
+
+}
+.text_line {
+    clear: both;
+}
+#status {
+	position: relative;
+	top: 0px;
+	width: 300px;
+	margin: 0 auto;
+}
 h1 {
+	text-align: center;
+}
+h2 {
 	text-align: center;
 }

@@ -12,6 +12,22 @@ angular
     	self.chooseBox = chooseBox;
     	self.chooseWinner = chooseWinner;
 		self.catsGame = catsGame;
+		self.reset = reset;
+		self.resetScore = resetScore;
+		self.getTriviaA = getTriviaA;
+		self.getTriviaB = getTriviaB;
+		self.checkAnswer = checkAnswer;
+		self.theTurn = null;
+		self.trivA = null;
+		self.trivB = null;
+		self.boxIndex = null;
+		self.choice = null;
+		self.setA = setA;
+		self.setB = setB;
+		self.setC = setC;
+		self.setD = setD;
+		
+
 
 
     	
@@ -24,37 +40,101 @@ angular
 
     	self.gameState = getGameState();
 
+    	function getTriviaA() {
+    		console.log("getting trivia");
+    		self.trivA = self.gameState.trivia[Math.floor(Math.random() * self.gameState.trivia.length)];
+    			console.log("the key is " + self.trivA.key);
+    	}
+
+    	function getTriviaB() {
+    		console.log("getting trivia");
+    		self.trivB = self.gameState.trivia[Math.floor(Math.random() * self.gameState.trivia.length)];
+    			console.log("the key is " + self.trivB.key);
+    	}
+
     	//establishes two players (X & O) - one of them goes first and then they alternate
 		function takeTurns(){    
 			self.gameState.turn++;
 			if (self.gameState.turn % 2 === 0){
 				return "O";
 			} else {
-				return "X";
+				return "X";	
 			}
 			self.gameState.$save(self.gameState.turn);
+			
 		}
+		function setA(){
+			self.choice = 1;
+			console.log("The choice is ");
+			checkAnswer();
+		}
+		function setB(){
+			self.choice = 2;
+			console.log("The choice is " + self.choice);
+			checkAnswer();
+		}
+		function setC(){
+			self.choice = 3;
+			console.log("The choice is " + self.choice);
+			checkAnswer();
+		}
+		function setD(){
+			self.choice = 4;
+			console.log("The choice is " + self.choice);
+			checkAnswer();
+		}
+
+		function checkAnswer(){
+			console.log("checking answer");
+			var q = self.boxIndex;
+				if(self.theTurn == "X" && self.choice == self.trivA.key){
+					console.log("X should be in the box");
+					self.gameState.boxes[q].isX = true;
+					self.gameState.stat = "Player 2 Move";
+				}
+				else if(self.theTurn == "O" && self.choice == self.trivB.key){
+					console.log("O should be here");
+					self.gameState.boxes[q].isO = true;
+					self.gameState.stat = "Player 1 Move";
+				}
+				else if(self.theTurn == "X"){
+					console.log("X didnt work")
+					self.gameState.stat = "Player 2 Move";
+				}
+				else if(self.theTurn == "O"){
+					console.log("O didnt work")
+					self.gameState.stat = "Player 1 Move";
+				}
+			self.gameState.$save(self.gameState.boxes);
+			self.gameState.$save(self.gameState.stat);
+			chooseWinner();
+		}
+
+
+		
 
 		//reacts to box being clicked and places an X or O in the box 
 		// 	by changing the values in the boxes array
 		function chooseBox(index){	
+			self.boxIndex = index;
+			console.log(self.boxIndex)
 			//boxes cannot be checked twice	
 			if(self.gameState.boxes[index].isX == true 
 				|| self.gameState.boxes[index].isO == true){ 
 					alert("Pick another box!");
 					return;
 				}
-			//First selects a box and it is marked with their token (X or O)
-			//Second player does the same (repeat pattern of turns) 
-			//constantly check to see if a player has won. 
-			var theTurn = takeTurns();
-				if(theTurn == "X"){
-					self.gameState.boxes[index].isX = true;
+				
+		
+				self.theTurn = takeTurns();
+				if(self.theTurn == "X"){
+					getTriviaA();
+	
 				}else{
-					self.gameState.boxes[index].isO = true;
+					getTriviaB();
+		
 				}
-			self.gameState.$save(self.gameState.boxes);
-			chooseWinner();
+		
 		}
 		// First player to get 3 connected consecutive boxes
 		// marked with their token in horizontal, veritcal or
@@ -104,8 +184,8 @@ angular
 			){
 				self.gameState.score.p1Score++;
 				self.gameState.$save(self.gameState.score.p1Score);
-				alert("X Wins!");
-				reset();
+				self.gameState.stat = "Player 1 Wins!";
+				self.gameState.$save(self.gameState.stat);
 
 			}else if(
 				(self.gameState.boxes[0].isO === true 
@@ -150,8 +230,8 @@ angular
 			){
 				self.gameState.score.p2Score++;
 				self.gameState.$save(self.gameState.score.p2Score);
-				alert("O Wins!");
-				reset();
+				self.gameState.stat = "Player 2 Wins!";
+				self.gameState.$save(self.gameState.stat);
 
 			}else{
 				catsGame();
@@ -162,8 +242,8 @@ angular
 		//and the game gets reset
 		function catsGame() {
 			if (self.gameState.turn == 9) {
-				alert("Cat's Game!");
-				reset();
+				self.gameState.stat = "Cat's Game";
+				self.gameState.$save(self.gameState.stat)
 			}
 		}
 
@@ -175,8 +255,18 @@ angular
 				self.gameState.boxes[i].isO = false;
 				self.gameState.$save(self.gameState.boxes);
 			}
+			self.gameState.stat = "Player 1 Move"
 			self.gameState.turn = 0;
 			self.gameState.$save(self.gameState.turn);
+			self.gameState.$save(self.gameState.stat);
+		}
+
+		function resetScore() {
+			self.gameState.stat = "Player 1 Move"
+			self.gameState.score.p1Score = 0;
+			self.gameState.score.p2Score = 0;
+			self.gameState.$save(self.gameState.score)
+			self.gameState.$save(self.gameState.stat);
 		}
 
 
