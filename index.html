@@ -21,47 +21,49 @@
 
 </head>
 <body ng-app="tttApp" ng-controller="TttController as tttCtrl">
-	<h1>Trivia Tac Toe!</h1>
-	<div id="scoreWrapper">
+    <h1>Trivia Tac Toe!</h1>
+
+    <form name="form" class="playInput">
+        <input type="text" name="playerName" ng-model="tttCtrl.playerName" placeholder="Name" required>
+        <button ng-click="tttCtrl.newPlayer()" ng-disabled="form.$invalid">Play</button>
+    </form>
+
+   <div id="scoreWrapper">
         <div id="p1">
-          <h2>Player One Score</h2>
+            <h2>Player One Score</h2>
             <div id="p1score" class="score">{{ tttCtrl.gameState.score.p1Score }}</div>
-            <ul id="p1trivia">
-            	<li class="question"> {{ tttCtrl.trivA.question }}</li>
-            	<li class="answer" ng-click="tttCtrl.setA()">{{ tttCtrl.trivA.a }}</li>
-            	<li class="answer" ng-click="tttCtrl.setB()">{{ tttCtrl.trivA.b }}</li>
-            	<li class="answer" ng-click="tttCtrl.setC()">{{ tttCtrl.trivA.c }}</li>
-            	<li class="answer" ng-click="tttCtrl.setD()">{{ tttCtrl.trivA.d }}</li>
-            </ul>
-        </div>
+          </div>
+
         <div id="p2">
-          <h2>Player Two Score</h2>
+            <h2>Player Two Score</h2>
             <div id="p2score" class="score">{{ tttCtrl.gameState.score.p2Score }}</div>
-        <ul id="p2trivia">
-            	<li class="question">{{ tttCtrl.trivB.question }}</li>
-            	<li class="answer" ng-click="tttCtrl.setA()">{{ tttCtrl.trivB.a }}</li>
-            	<li class="answer" ng-click="tttCtrl.setB()">{{ tttCtrl.trivB.b }}</li>
-            	<li class="answer" ng-click="tttCtrl.setC()">{{ tttCtrl.trivB.c }}</li>
-            	<li class="answer" ng-click="tttCtrl.setD()">{{ tttCtrl.trivB.d }}</li>
-            </ul>
-            	
         </div>
-        </div>
-      
-	<div id="board">
-        <div class="boxes" ng-repeat="box in tttCtrl.gameState.boxes" ng-click="tttCtrl.chooseBox($index)" ng-class="{ 'isX': box.isX , 'isO': box.isO }">
-        </div>
-    </div>
 
-    <div id="status">
-    	<h1>{{ tttCtrl.gameState.stat }}</h1>
-    	<button id="newGameButton" ng-click="tttCtrl.reset()">New Game</button>
-    	<button id="reset" ng-click="tttCtrl.resetScore()">Reset Score</button>
-    	
-    </div>
 
-    	
-    
+	<section class="container">
+        <div id="card" ng-class="{ isFlipped : tttCtrl.isFlipped}"> 
+            <figure class="front">
+                <div class="boxes" ng-repeat="box in tttCtrl.gameState.boxes" ng-click="tttCtrl.chooseBox($index)" ng-class="{ 'isX': box.isX , 'isO': box.isO , 'isQ': box.isQ}">
+            </div>
+            </figure>
+            <figure class="back">
+                <div class="trivia">
+                <li class="question">{{ tttCtrl.triv.question }}</li>
+                <li class="answer" ng-click="tttCtrl.setA()">{{ tttCtrl.triv.a }}</li>
+                <li class="answer" ng-click="tttCtrl.setB()">{{ tttCtrl.triv.b }}</li>
+                <li class="answer" ng-click="tttCtrl.setC()">{{ tttCtrl.triv.c }}</li>
+                <li class="answer" ng-click="tttCtrl.setD()">{{ tttCtrl.triv.d }}</li>
+            </div>
+            </figure>
+        </div>
+    </section>
+	<div id="status">
+        <h1>{{ tttCtrl.gameState.stat }}</h1>
+        <button id="newGameButton" ng-click="tttCtrl.reset()">New Game</button>
+        <button id="reset" ng-click="tttCtrl.resetScore()">Reset Score</button>
+        <button id="resetPlayers" ng-click="tttCtrl.resetPlayers()">Reset Players</button>
+    </div>
+    </div>    
 
 </body>
 </html>
